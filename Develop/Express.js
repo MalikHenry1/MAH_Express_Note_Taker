@@ -4,7 +4,6 @@ const fs = require('fs');
 const { json } = require('express');
 const { randomInt } = require('crypto');
 
-// const api = require('./routes/index.js');
 const PORT = process.env.PORT || 3001;
 
 const app = express();
@@ -44,3 +43,32 @@ app.post('/api/notes', (req, res) => {
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
+
+app.delete('/:id', (req, res) => {
+  readFromFile('./db/db.json')
+    .then((data) => {
+      const requestedId = req.params.id.toLowerCase();
+      let match = false;
+      let noteInfo = JSON.parse(data);
+
+      for(let i = 0; i < noteInfo.length; i++) {
+        if(requestedId===noteInfo[i].id){
+          match = true;
+          noteInfo.splice(i,1);
+        }
+      }
+
+      if(match) {
+        writeToFile('./db/db.json', noteInfo);
+        const response = {
+          status: 'success',
+        };
+        res.json(response);
+      } else {
+        res.json('ID not found.');
+      }
+    })
+    .catch((error) => console.log(error));
+});
+
+module.exports = app;
