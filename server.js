@@ -3,7 +3,8 @@ const path = require('path');
 const fs = require('fs');
 const { json } = require('express');
 const { randomInt } = require('crypto');
-
+const uuidv1 = require('uuid').v1;
+const util = require('util');
 const PORT = process.env.PORT || 3001;
 
 const app = express();
@@ -12,7 +13,6 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use('/api', api);
 app.use(express.static('public'));
 
 // GET Route for homepage
@@ -31,44 +31,37 @@ app.get('/api/notes', (req,res) => {
     res.json(allNotes);
 })
 
-// POST route for writing note to page
+// POST route for writing note to page Math.floor(Math.random()*500000)
 app.post('/api/notes', (req, res) => {
     let allNotes = JSON.parse(fs.readFileSync('./db/db.json'));
-    req.body.id = Math.floor(Math.random()*500000);
+    req.body.id = uuidv1();
     allNotes.push(req.body);
     fs.writeFileSync('./db/db.json', JSON.stringify(allNotes));
     res.json(allNotes);
-})
+});
+
+app.delete('/api/notes/:id', (req, res) => {
+  var data = fs.readFileSync('./db/db.json')
+      const requestedId = req.params.id;
+      let noteInfo = JSON.parse(data);
+
+     const filterNotes = noteInfo.filter(note => note.id !== requestedId) 
+        
+
+       
+        fs.writeFileSync('./db/db.json', JSON.stringify(filterNotes));
+        const response = {
+          status: 'success',
+        };
+        res.json(response);
+  
+});
+
 
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT} 🚀`)
 );
 
-app.delete('/:id', (req, res) => {
-  readFromFile('./db/db.json')
-    .then((data) => {
-      const requestedId = req.params.id.toLowerCase();
-      let match = false;
-      let noteInfo = JSON.parse(data);
 
-      for(let i = 0; i < noteInfo.length; i++) {
-        if(requestedId===noteInfo[i].id){
-          match = true;
-          noteInfo.splice(i,1);
-        }
-      }
-
-      if(match) {
-        writeToFile('./db/db.json', noteInfo);
-        const response = {
-          status: 'success',
-        };
-        res.json(response);
-      } else {
-        res.json('ID not found.');
-      }
-    })
-    .catch((error) => console.log(error));
-});
 
 module.exports = app;

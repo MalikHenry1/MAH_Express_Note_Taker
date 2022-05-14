@@ -2,13 +2,7 @@
 This repository contains code for an application called Note Taker that can be used to write and save notes.
  
  License Used: MIT
-
-  MIT: 
   [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-  ISC: [![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
-  Eclipse: [![License](https://img.shields.io/badge/License-EPL_1.0-red.svg)](https://opensource.org/licenses/EPL-1.0)
-  IBM: [![License: IPL 1.0](https://img.shields.io/badge/License-IPL_1.0-blue.svg)](https://opensource.org/licenses/IPL-1.0)
-
 
   ## Table of Contents
   [Description](#description)
@@ -24,11 +18,11 @@ This repository contains code for an application called Note Taker that can be u
     
   ## Installation 
   
-  In order for this app to function, the user must install inquirer.
+  In order for this app to function, the user must install the express package.
 
   ## Usage 
   
-  When the user opens the landing page, they are presented with a homepage that allows them to navigate to the note taking start button.
+  When the user opens the landing page, they are presented with a homepage that allows them to navigate to the note taking page via start button. Once there, the user is presented with the note taker screen where they can create the title and body of their note. Once the note has been created, the user can hit the save icon located in the upper right hand corner of the nav bar and their note is saved to the left-hand column. Upon clikcing a created note in the left-hand column, the user is presented with the text from the saved note. Each note contains a delete icon (the trash can symbol located to the right of each note), that, when clicked, removes the note from the queue. 
 
   ## Contributions 
   
